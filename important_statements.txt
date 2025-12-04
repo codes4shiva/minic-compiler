@@ -1,0 +1,61 @@
+    std::vector<Type*> Doubles(0,
+                             Type::getDoubleTy(Context));
+  
+    FunctionType *FT = FunctionType::get(Type::getVoidTy(Context), Doubles, false);
+    Function *F = Function::Create(FT, Function::ExternalLinkage, "main", TheModule);
+    BasicBlock *BB = BasicBlock::Create(Context, "entry", F);
+    Builder.SetInsertPoint(BB);
+    AllocaInst *allocaMem = allocateMemory(F, "a", "int");
+    NamedValues["a"] = allocaMem;
+    Builder.CreateStore(ConstantInt::get(Context, APInt(32, 1)) ,allocaMem);
+    Builder.CreateRetVoid();
+    
+    verifyFunction(*F);
+
+    ConstantInt::get(Context, APInt(32, 1));;
+
+    Function *TheFunction = Builder.GetInsertBlock()->getParent();
+    BasicBlock *ifBlock = BasicBlock::Create(Context, "if", TheFunction);
+    Builder.CreateCondBr(CondV, ifBlock, elseBlock);
+
+    Builder.SetInsertPoint(ifBlock);
+    Value *ThenV = if_block->Codegen();
+    Builder.CreateBr(MergeBB);
+
+    TheFunction->getBasicBlockList().push_back(elseBlock);
+    Builder.SetInsertPoint(elseBlock);
+
+
+
+
+    for(Instruction &I: *BB){
+            auto ptr = dyn_cast<User>(&I);
+            auto val = dyn_cast<Value>(&I);
+            string op3 = string(val->getName());
+            string op1;
+            string op2;
+            int i = 1;
+            for (auto it = ptr->op_begin(); it != ptr->op_end(); ++it)
+            {
+                errs() << i << '\n';
+                if(i==1)
+                {
+                    op1 = getValueName(it,op1);
+                }
+                if(i==2)
+                {
+                    op2 = getValueName(it,op2);
+                }
+                i++;
+            }
+
+            errs() << op1 << " " << op2 << " " << op3 << '\n';
+        }
+
+
+        string getValueName(Use *it, std::string op){
+        if ((*it)->hasName()){
+            return op = string((*it)->getName());
+        }
+        return "";
+  }

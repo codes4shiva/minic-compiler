@@ -1,0 +1,26 @@
+; ModuleID = 'MiniC compiler'
+source_filename = "MiniC compiler"
+
+define i32 @main() {
+entry:
+  %a = alloca i32
+  br i1 false, label %true_block, label %false_block
+
+true_block:                                       ; preds = %entry
+  br label %mergeBB
+
+false_block:                                      ; preds = %entry
+  br label %mergeBB
+
+mergeBB:                                          ; preds = %false_block, %true_block
+  %iftmp = phi i32 [ 9, %true_block ], [ 11, %false_block ]
+  store i32 %iftmp, i32* %a
+  %0 = load i32, i32* %a
+  call void @printlnint(i32 %0)
+  br label %return
+
+return:                                           ; preds = %mergeBB
+  ret i32 0
+}
+
+declare void @printlnint(i32)
