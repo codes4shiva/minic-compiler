@@ -1,17 +1,38 @@
-# MiniC-Compiler
+# MiniC Compiler — Study & Reference Implementation
 
-## Language Manual:
-- Refer to 20171077_MiniC_Manual.pdf.
+This repository contains a compiler for a subset of the C programming language,
+using LLVM for code generation.
 
-## Instructions to compile and run the code:
-- ./compile_and_run.sh \<path to source code\>
-- Eg: ./compile_and_run.sh testcases/1.mc
+> **Note:** This is a reference/study implementation. I am actively studying
+> compiler internals — lexing, parsing, AST construction, IR generation, and
+> code optimization — as part of my preparation for systems software engineering.
+> Original implementation credit: [swetanjal/MiniC-Compiler](https://github.com/swetanjal/MiniC-Compiler)
 
-## Implementation Details:
-- The Macro and Micro Syntax of the language is specified in MiniC.g4 file.
-- ANTLR-4 is used as the parser generator.
-- The code generation is done in LLVM IR and passed to LLVM Toolchain.
-- LLVM Toolchain handles the machine code generation and hence forms the backend of the compiler.
-- More details regarding the implementation to come!
-- Throughout the implementation, interesting compiler ideas like Basic Blocks, control flow graphs, abstract syntax trees are used which consolidates the understanding of the theory taught in the course.
-- Check out Bonus folder on details about how an LLVM pass can be written. It contains Analysis/Transformation pass for printing extended basic blocks in a  program and a pass which implements Super-local value numbering.
+## What I'm Learning From This
+
+- How a hand-written lexer tokenizes C-like source code
+- Recursive-descent parsing and AST construction
+- LLVM IR generation using the LLVM toolchain
+- Control flow graphs, basic blocks, and SSA form
+- How compilers like Clang/PTX map high-level code to machine instructions
+
+## Project Structure
+
+- `src/` — Lexer, Parser, AST nodes
+- `codegen/` — LLVM IR code generation
+- `examples/` — Sample MiniC programs
+
+## Build Instructions
+
+```bash
+mkdir build && cd build
+cmake ..
+make
+```
+
+## Why This Matters to Me
+
+I'm deeply interested in how compilers work at a systems level — particularly
+how GPU compilers like NVIDIA's PTX compiler translate high-level constructs
+into efficient machine code. Understanding the full pipeline from source →
+IR → assembly is foundational to that goal.
